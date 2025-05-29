@@ -1,93 +1,197 @@
 #include <stdio.h>
 
+// ========================================
+// FUNÇÕES RECURSIVAS PARA AS PEÇAS
+// ========================================
+
+// Função recursiva para movimento da Torre
+// Parâmetros: current_move (movimento atual), total_moves (total de movimentos)
+void move_rook_recursive(int current_move, int total_moves) {
+    // Caso base: se já executou todos os movimentos, para a recursão
+    if (current_move > total_moves) {
+        return;
+    }
+    
+    // Imprime o movimento atual
+    printf("Right\n");
+    
+    // Chamada recursiva para o próximo movimento
+    move_rook_recursive(current_move + 1, total_moves);
+}
+
+// Função recursiva para movimento da Rainha
+// Parâmetros: current_move (movimento atual), total_moves (total de movimentos)
+void move_queen_recursive(int current_move, int total_moves) {
+    // Caso base: se já executou todos os movimentos, para a recursão
+    if (current_move > total_moves) {
+        return;
+    }
+    
+    // Imprime o movimento atual
+    printf("Left\n");
+    
+    // Chamada recursiva para o próximo movimento
+    move_queen_recursive(current_move + 1, total_moves);
+}
+
+// Função recursiva para movimento diagonal do Bispo
+// Parâmetros: current_move (movimento atual), total_moves (total de movimentos)
+void move_bishop_recursive(int current_move, int total_moves) {
+    // Caso base: se já executou todos os movimentos, para a recursão
+    if (current_move > total_moves) {
+        return;
+    }
+    
+    // Imprime o movimento diagonal atual
+    printf("Up Right\n");
+    
+    // Chamada recursiva para o próximo movimento
+    move_bishop_recursive(current_move + 1, total_moves);
+}
+
+// Função para movimento do Bispo com loops aninhados
+// Loop externo: movimento vertical, Loop interno: movimento horizontal
+void move_bishop_nested_loops(int vertical_moves, int horizontal_moves) {
+    // Loop externo - controla o movimento vertical (para cima)
+    for (int vertical_step = 1; vertical_step <= vertical_moves; vertical_step++) {
+        
+        // Loop interno - controla o movimento horizontal (para a direita)
+        // Para cada movimento vertical, executa um movimento horizontal
+        for (int horizontal_step = 1; horizontal_step <= horizontal_moves; horizontal_step++) {
+            printf("Up Right\n");
+        }
+    }
+}
+
 int main() {
     // Definindo as constantes para o número de casas a serem movidas
-    const int ROOK_MOVES = 5;       // Torre move 5 casas para a direita
-    const int BISHOP_MOVES = 5;     // Bispo move 5 casas na diagonal (cima-direita)
-    const int QUEEN_MOVES = 8;      // Rainha move 8 casas para a esquerda
-    const int KNIGHT_DOWN_MOVES = 2; // Cavalo move 2 casas para baixo (primeira parte do L)
-    const int KNIGHT_LEFT_MOVES = 1; // Cavalo move 1 casa para a esquerda (segunda parte do L)
+    const int ROOK_MOVES = 5;           // Torre move 5 casas para a direita
+    const int BISHOP_MOVES = 5;         // Bispo move 5 casas na diagonal (cima-direita)
+    const int QUEEN_MOVES = 8;          // Rainha move 8 casas para a esquerda
+    const int KNIGHT_UP_MOVES = 2;      // Cavalo move 2 casas para cima (primeira parte do L)
+    const int KNIGHT_RIGHT_MOVES = 1;   // Cavalo move 1 casa para a direita (segunda parte do L)
     
-    // Variáveis de controle para os loops
-    int square;
-    int knight_step; // Variável adicional para controlar os loops aninhados do cavalo
+    // Variáveis de controle para loops complexos do cavalo
+    int vertical_phase, horizontal_phase;
+    int movement_completed;
     
-    printf("=== CHESS PIECES MOVEMENT SIMULATION ===\n\n");
-    
-    // ========================================
-    // TORRE - Usando estrutura FOR
-    // Move-se horizontalmente ou verticalmente
-    // Simulando movimento de 5 casas para a direita
-    // ========================================
-    printf("ROOK - Horizontal movement (5 squares to the right):\n");
-    
-    for (square = 1; square <= ROOK_MOVES; square++) {
-        printf("Right\n");
-    }
-    
-    printf("\n"); // Linha em branco para separar as seções
+    printf("=== ADVANCED CHESS PIECES MOVEMENT SIMULATION ===\n\n");
     
     // ========================================
-    // BISPO - Usando estrutura WHILE
-    // Move-se na diagonal
-    // Simulando movimento de 5 casas na diagonal cima-direita
+    // TORRE - Usando RECURSIVIDADE
+    // Move-se horizontalmente para a direita
+    // Substituindo o loop original por função recursiva
     // ========================================
-    printf("BISHOP - Diagonal movement (5 squares up and right):\n");
-    
-    square = 1; // Inicializando a variável de controle
-    while (square <= BISHOP_MOVES) {
-        printf("Up Right\n");
-        square++; // Incrementando o contador
-    }
-    
-    printf("\n"); // Linha em branco para separar as seções
+    printf("ROOK - Recursive movement (5 squares to the right):\n");
+    move_rook_recursive(1, ROOK_MOVES);
+    printf("\n");
     
     // ========================================
-    // RAINHA - Usando estrutura DO-WHILE
-    // Move-se em todas as direções
-    // Simulando movimento de 8 casas para a esquerda
+    // BISPO - Usando RECURSIVIDADE
+    // Move-se na diagonal (cima-direita)
+    // Implementação recursiva do movimento diagonal
     // ========================================
-    printf("QUEEN - Horizontal movement (8 squares to the left):\n");
-    
-    square = 1; // Inicializando a variável de controle
-    do {
-        printf("Left\n");
-        square++; // Incrementando o contador
-    } while (square <= QUEEN_MOVES);
-    
-    printf("\n=== END OF SIMULATION ===\n");
+    printf("BISHOP - Recursive diagonal movement (5 squares up-right):\n");
+    move_bishop_recursive(1, BISHOP_MOVES);
+    printf("\n");
     
     // ========================================
-    // CAVALO - Usando loops aninhados (FOR + WHILE)
-    // Move-se em "L": 2 casas para baixo, depois 1 casa para a esquerda
-    // Loop externo (FOR) controla as etapas do movimento
-    // Loop interno (WHILE) executa cada etapa do movimento
+    // BISPO - Usando LOOPS ANINHADOS
+    // Loop externo: movimento vertical
+    // Loop interno: movimento horizontal
+    // Demonstra implementação alternativa com loops aninhados
     // ========================================
-    printf("\nKNIGHT - L-shaped movement (2 squares down, then 1 square left):\n");
+    printf("BISHOP - Nested loops movement (5 squares up-right):\n");
+    move_bishop_nested_loops(BISHOP_MOVES, 1); // 5 movimentos verticais, 1 horizontal por vez
+    printf("\n");
     
-    // Loop externo FOR - controla as duas etapas do movimento em L
-    // Etapa 1: movimento para baixo (2 casas)
-    // Etapa 2: movimento para a esquerda (1 casa)
-    for (int movement_phase = 1; movement_phase <= 2; movement_phase++) {
+    // ========================================
+    // RAINHA - Usando RECURSIVIDADE
+    // Move-se horizontalmente para a esquerda
+    // Substituindo o loop original por função recursiva
+    // ========================================
+    printf("QUEEN - Recursive movement (8 squares to the left):\n");
+    move_queen_recursive(1, QUEEN_MOVES);
+    printf("\n");
+    
+    // ========================================
+    // CAVALO - Usando LOOPS COMPLEXOS com múltiplas variáveis
+    // Move-se em "L": 2 casas para cima, depois 1 casa para a direita
+    // Implementação avançada com controle de fluxo usando continue e break
+    // Múltiplas variáveis de controle e condições complexas
+    // ========================================
+    printf("KNIGHT - Complex loops L-movement (2 squares up, then 1 square right):\n");
+    
+    // Loop externo controla as fases do movimento (vertical e horizontal)
+    for (int phase = 1; phase <= 2; phase++) {
+        movement_completed = 0; // Flag para controlar conclusão da fase
         
-        if (movement_phase == 1) {
-            // Primeira fase: mover 2 casas para baixo
-            knight_step = 1; // Inicializando contador para o loop while
-            while (knight_step <= KNIGHT_DOWN_MOVES) {
-                printf("Down\n");
-                knight_step++; // Incrementando o contador
+        // Primeira fase: movimento vertical (para cima)
+        if (phase == 1) {
+            vertical_phase = 1;
+            
+            // Loop interno com múltiplas condições e variáveis
+            while (vertical_phase <= KNIGHT_UP_MOVES && !movement_completed) {
+                
+                // Loop mais interno para controle fino do movimento
+                for (int step_control = 1; step_control <= 1; step_control++) {
+                    
+                    // Condição complexa: verifica se deve continuar o movimento
+                    if (vertical_phase > KNIGHT_UP_MOVES) {
+                        movement_completed = 1;
+                        break; // Sai do loop interno se exceder o limite
+                    }
+                    
+                    printf("Up\n");
+                    vertical_phase++;
+                    
+                    // Continue usado para controle de fluxo
+                    if (vertical_phase <= KNIGHT_UP_MOVES) {
+                        continue; // Continua no próximo ciclo se ainda há movimentos
+                    }
+                }
+                
+                // Break usado para sair do loop while quando necessário
+                if (movement_completed) {
+                    break;
+                }
             }
-        } else {
-            // Segunda fase: mover 1 casa para a esquerda
-            knight_step = 1; // Reinicializando contador para o loop while
-            while (knight_step <= KNIGHT_LEFT_MOVES) {
-                printf("Left\n");
-                knight_step++; // Incrementando o contador
+        }
+        // Segunda fase: movimento horizontal (para a direita)
+        else if (phase == 2) {
+            horizontal_phase = 1;
+            movement_completed = 0; // Reset da flag para a nova fase
+            
+            // Loop interno com controle similar à fase vertical
+            while (horizontal_phase <= KNIGHT_RIGHT_MOVES && !movement_completed) {
+                
+                // Loop mais interno para controle detalhado
+                for (int step_control = 1; step_control <= 1; step_control++) {
+                    
+                    // Condição complexa para controle do movimento horizontal
+                    if (horizontal_phase > KNIGHT_RIGHT_MOVES) {
+                        movement_completed = 1;
+                        break; // Sai se exceder o limite de movimentos horizontais
+                    }
+                    
+                    printf("Right\n");
+                    horizontal_phase++;
+                    
+                    // Continue para otimizar o fluxo
+                    if (horizontal_phase <= KNIGHT_RIGHT_MOVES) {
+                        continue;
+                    }
+                }
+                
+                // Break para finalizar quando movimento estiver completo
+                if (movement_completed) {
+                    break;
+                }
             }
         }
     }
     
-    printf("\n=== KNIGHT MOVEMENT COMPLETED ===\n");
+    printf("\n=== ADVANCED SIMULATION COMPLETED ===\n");
     
     return 0;
 }
